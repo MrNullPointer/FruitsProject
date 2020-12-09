@@ -1,26 +1,21 @@
-const { MongoClient } = require("mongodb");
+const mongoose = require("mongoose");
+mongoose.set("useUnifiedTopology", true);
+mongoose.set("useNewUrlParser", true);
 
-// Replace the uri string with your MongoDB deployment's connection string.
-const uri =
-  "mongodb+srv://<user>:<password>@<cluster-url>?retryWrites=true&w=majority";
+mongoose.connect("mongodb://localhost:27017/fruitsDB");
 
-const client = new MongoClient(uri);
+const fruitSchema = new mongoose.Schema({
+  name: String,
+  rating: Number,
+  review: String,
+});
 
-async function run() {
-  try {
-    await client.connect();
+const Fruit = mongoose.model("Fruit", fruitSchema);
+const fruit = new Fruit({
+  // fruit document creation from model
+  name: "Apple",
+  rating: 7,
+  review: "Pretty solid as a fruit.",
+});
 
-    const database = client.db("sample_mflix");
-    const collection = database.collection("movies");
 
-    // Query for a movie that has the title 'Back to the Future'
-    const query = { title: "Back to the Future" };
-    const movie = await collection.findOne(query);
-
-    console.log(movie);
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
-  }
-}
-run().catch(console.dir);
