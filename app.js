@@ -54,13 +54,22 @@ Save The above declared fruits in a bulk by using insertMany
 Available in Mongoose API/model
 */
 
-Fruit.insertMany([kiwi, orange, banana], function (err) {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log("Sucessfully saved all the fruits in fruitsDB");
-  }
-});
+// Fruit.insertMany([kiwi, orange, banana], function (err) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Sucessfully saved all the fruits in fruitsDB");
+//   }
+// });
 
 //fruit.save();
 // person.save();
+
+Fruit.find(function (err, fruits) {
+  if (err) {
+    consol.log(err);
+  } else {
+    mongoose.connection.close(); //close the connection when done
+    fruits.forEach((element) => console.log(element.name));
+  }
+});
