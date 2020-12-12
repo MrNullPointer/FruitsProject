@@ -38,23 +38,23 @@ const person = new Person({
 });
 
 // //<-------- Add bulk of fruits ------->//
-// const kiwi = new Fruit({
-//   name: "Kiwi",
-//   rating: 9,
-//   review: "The best fruit",
-// });
+const kiwi = new Fruit({
+  name: "Kiwi",
+  rating: 9,
+  review: "The best fruit",
+});
 
-// const orange = new Fruit({
-//   name: "Orange",
-//   rating: 6,
-//   review: "I like them sometimes",
-// });
+const orange = new Fruit({
+  name: "Orange",
+  rating: 6,
+  review: "I like them sometimes",
+});
 
-// const banana = new Fruit({
-//   name: "Banana",
-//   rating: 9,
-//   review: "I love bananas",
-// });
+const banana = new Fruit({
+  name: "Banana",
+  rating: 9,
+  review: "I love bananas",
+});
 
 /*
 Save The above declared fruits in a bulk by using insertMany
@@ -80,3 +80,17 @@ Fruit.find(function (err, fruits) {
     fruits.forEach((element) => console.log(element.name));
   }
 });
+
+
+//<---- Updating the database ------>//
+// Fruit.updateOne({})
+
+//<--------Deleting the database------->//
+Fruit.deleteOne({name : "Kiwi"}, (err)=>{
+  if (err){
+    console.log(err);
+  }
+  else{
+    console.log("Success!!")
+  }
+})
