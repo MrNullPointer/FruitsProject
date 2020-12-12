@@ -7,7 +7,7 @@ mongoose.connect("mongodb://localhost:27017/fruitsDB"); //<- Name of the databas
 const fruitSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please check your data entry, no name specified"]
+    required: [true, "Please check your data entry, no name specified"],
   },
   rating: {
     type: Number,
@@ -20,6 +20,8 @@ const fruitSchema = new mongoose.Schema({
 const personSchema = new mongoose.Schema({
   name: String,
   age: Number,
+  //Adding relationship between fruits collection and person collection
+  favoriteFruit: fruitSchema,
 });
 
 //use schema to create a Fruit model, mongo will drop the capital F using loDash
@@ -36,6 +38,23 @@ const person = new Person({
   name: "Parikshit",
   age: 28,
 });
+
+//<-----Creating new fruit and relationships------>//
+const pineapple = new Fruit({
+  name: "Pineapple",
+  rating: 10,
+  review: "Tangy and best",
+});
+
+pineapple.save()
+
+const rishi = new Person({
+  name: "Rishi",
+  age: "20",
+  favoriteFruit: pineapple,
+});
+
+rishi.save()
 
 // //<-------- Add bulk of fruits ------->//
 const kiwi = new Fruit({
@@ -72,25 +91,23 @@ Available in Mongoose API/model
 // fruit.save();
 // person.save();
 
-Fruit.find(function (err, fruits) {
-  if (err) {
-    console.log(err);
-  } else {
-    mongoose.connection.close(); //close the connection when done
-    fruits.forEach((element) => console.log(element.name));
-  }
-});
-
+// Fruit.find(function (err, fruits) {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     mongoose.connection.close(); //close the connection when done
+//     fruits.forEach((element) => console.log(element.name));
+//   }
+// });
 
 //<---- Updating the database ------>//
 // Fruit.updateOne({})
 
 //<--------Deleting the database------->//
-Fruit.deleteOne({name : "Kiwi"}, (err)=>{
-  if (err){
-    console.log(err);
-  }
-  else{
-    console.log("Success!!")
-  }
-})
+// Person.deleteOne({ name: "Rishi" }, (err) => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     console.log("Success!!");
+//   }
+// });
