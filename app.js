@@ -5,8 +5,15 @@ mongoose.set("useNewUrlParser", true);
 mongoose.connect("mongodb://localhost:27017/fruitsDB"); //<- Name of the database that we want to connect to
 
 const fruitSchema = new mongoose.Schema({
-  name: String,
-  rating: Number,
+  name: {
+    type: String,
+    required: [true, "Please check your data entry, no name specified"]
+  },
+  rating: {
+    type: Number,
+    min: 1,
+    max: 10,
+  },
   review: String,
 });
 
@@ -20,7 +27,7 @@ const Fruit = mongoose.model("Fruit", fruitSchema);
 const fruit = new Fruit({
   // fruit document creation from model
   name: "Apple",
-  rating: 7,
+  rating: 2,
   review: "Pretty solid as a fruit.",
 });
 
@@ -30,24 +37,24 @@ const person = new Person({
   age: 28,
 });
 
-//<-------- Add bulk of fruits ------->//
-const kiwi = new Fruit({
-  name: "Kiwi",
-  rating: 9,
-  review: "The best fruit",
-});
+// //<-------- Add bulk of fruits ------->//
+// const kiwi = new Fruit({
+//   name: "Kiwi",
+//   rating: 9,
+//   review: "The best fruit",
+// });
 
-const orange = new Fruit({
-  name: "Orange",
-  rating: 6,
-  review: "I like them sometimes",
-});
+// const orange = new Fruit({
+//   name: "Orange",
+//   rating: 6,
+//   review: "I like them sometimes",
+// });
 
-const banana = new Fruit({
-  name: "Banana",
-  rating: 9,
-  review: "I love bananas",
-});
+// const banana = new Fruit({
+//   name: "Banana",
+//   rating: 9,
+//   review: "I love bananas",
+// });
 
 /*
 Save The above declared fruits in a bulk by using insertMany
@@ -62,12 +69,12 @@ Available in Mongoose API/model
 //   }
 // });
 
-//fruit.save();
+// fruit.save();
 // person.save();
 
 Fruit.find(function (err, fruits) {
   if (err) {
-    consol.log(err);
+    console.log(err);
   } else {
     mongoose.connection.close(); //close the connection when done
     fruits.forEach((element) => console.log(element.name));
